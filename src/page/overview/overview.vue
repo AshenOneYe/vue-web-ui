@@ -1,94 +1,85 @@
 <template>
-    <el-table v-if="hasData" :data="filterTableData" stripe style="width: 100%">
-        <el-table-column prop="serviceName" label="ServiceName" />
-        <el-table-column prop="methodName" label="MethodName" />
-        <el-table-column prop="parameters" label="Parameters" />
-        <el-table-column prop="callingUid" label="CallingUid" />
-        <el-table-column prop="callingPid" label="CallingPid" />
-        <el-table-column>
-            <template #header>
-                <el-input v-model="search" size="small" placeholder="Type to search" />
-            </template>
-            <template #default="scope">
-                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-                    Edit
-                </el-button>
-                <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
-    <el-empty v-else>
-        <el-button type="primary" v-on:click="btn">Reload</el-button>
-    </el-empty>
+    <el-row :gutter="20">
+        <el-col :span="12">
+            <div id="chart1" style="width: 100%;height:400px;"></div>
+        </el-col>
+        <el-col :span="12">
+            <div id="chart2" style="width: 100%;height:400px;"></div>
+        </el-col>
+    </el-row>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import * as echarts from 'echarts';
+import { onMounted } from 'vue';
 
-const search = ref("")
-const hasData = ref(false)
-const tableData = ref([])
+onMounted(() => {
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+    var myChart2 = echarts.init(document.getElementById('chart2'));
 
-const filterTableData = computed(() =>
-    tableData.value.filter(
-        (data) =>
-            !search.value ||
-            data.serviceName.toLowerCase().includes(search.value.toLowerCase()) ||
-            data.methodName.toLowerCase().includes(search.value.toLowerCase())
-    )
-)
-
-function handleEdit(index, row) {
-    console.log(index, row)
-}
-
-function handleDelete(index, row) {
-    console.log(index, row)
-}
-
-function loadData() {
-    tableData.value = [
-        {
-            serviceName: 'ActivityManagerService',
-            methodName: 'handleIncomingUser',
-            parameters: null,
-            callingUid: 10087,
-            callingPid: 3330,
+    window.onresize = () => {
+        myChart1.resize()
+        myChart2.resize()
+    }
+    // 绘制图表
+    myChart1.setOption({
+        title: {
+            text: 'ECharts 入门示例'
         },
-        {
-            serviceName: 'WifiManagerService',
-            methodName: 'getBSSID',
-            parameters: null,
-            callingUid: 10088,
-            callingPid: 3331,
+        tooltip: {},
+        xAxis: {
+            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
         },
-        {
-            serviceName: 'TelephonyManagerService',
-            methodName: 'getDeviceID',
-            parameters: null,
-            callingUid: 10089,
-            callingPid: 3332,
-        },
-        {
-            serviceName: 'ActivityManagerService',
-            methodName: 'handleIncomingUser',
-            parameters: null,
-            callingUid: 10090,
-            callingPid: 3333,
-        },
-        {
-            serviceName: 'ActivityManagerService',
-            methodName: 'handleIncomingUser',
-            parameters: null,
-            callingUid: 10091,
-            callingPid: 3334,
-        },
-    ]
-}
+        yAxis: {},
+        series: [
+            {
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }
+        ]
+    });
 
-function btn() {
-    console.log("loadData")
-    loadData()
-    hasData.value = tableData.value.length > 0
-}
+    const option = {
+        title: {
+            text: 'World Population'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+        },
+        series: [
+            {
+                name: '2011',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
+            },
+            {
+                name: '2012',
+                type: 'bar',
+                data: [19325, 23438, 31000, 121594, 134141, 681807]
+            }
+        ]
+    };
+
+    myChart2.setOption(option)
+})
+
 </script>

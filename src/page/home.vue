@@ -2,11 +2,11 @@
     <div class="common-layout" style="height:100%">
         <el-container>
             <el-header :style="{boxShadow: `var(--el-box-shadow)`}" style="background-color:   #ecf5ff;">
-                <h1>Beefdroid</h1>
+                <el-space wrap><h1>Beefdroid</h1></el-space>
             </el-header>
             <el-container >
                 <el-aside width="200px" :style="{boxShadow: `var(--el-box-shadow)`}">
-                    <el-menu :default-active="menu_index" @select="onSelect">
+                    <el-menu :default-active="menu_index" @select="onSelect" router="true">
                         <el-menu-item index="overview">
                             <el-icon>
                                 <Histogram />
@@ -38,13 +38,10 @@
 <script setup>
 import { Cpu, Setting, Histogram } from '@element-plus/icons-vue';
 import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
-const router = useRouter()
 const menu_index = ref("overview")
 function onSelect(index, item) {
     localStorage.setItem("menu_index", index)
-    router.push(index)
 }
 
 onMounted(() => {
