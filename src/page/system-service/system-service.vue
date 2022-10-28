@@ -45,7 +45,7 @@ window.ServiceData.values.forEach(element => {
 
 function getFilter(types) {
     var ret = []
-    new Set(types).forEach((element) => {
+    Array.from(new Set(types)).sort().forEach((element) => {
         ret.push({ text: element, value: element })
     })
     return ref(ret)
