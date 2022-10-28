@@ -60,20 +60,20 @@ onMounted(() => {
     var logMinTime = undefined
     var logLastTime = undefined
     window.ServiceData.values.forEach(element => {
-        var time = Math.round(element[1]/10000000)
+        var time = Math.round(element[1]/1000)
         var callingPid = element[2]
         // var syscall = element[3]
         if(!logLastTime){
             logLastTime = time
             logMinTime = time
         }
-        while(logLastTime < time){
-            logLastTime++
-            logtmp[logLastTime] = {}
-            logThreads.forEach(thread => {
-                logtmp[logLastTime][thread] = 0
-            })
-        }
+        // while(logLastTime < time){
+        //     logLastTime++
+        //     logtmp[logLastTime] = {}
+        //     logThreads.forEach(thread => {
+        //         logtmp[logLastTime][thread] = 0
+        //     })
+        // }
         if(!logtmp[time]){
             logtmp[time] = {}
             logThreads.forEach(thread => {

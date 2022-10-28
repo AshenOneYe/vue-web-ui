@@ -13,8 +13,7 @@
       <el-pagination background :page-size="pageItemCount" layout="prev, pager, next" :total="itemTotal"
         v-model:current-page="currentPage" />
     </el-tab-pane>
-    <el-tab-pane label="Thread View">Thread View</el-tab-pane>
-    <el-tab-pane label="Advance Analysis">Advance Analysis</el-tab-pane>
+    <el-tab-pane label="Analysis">Analysis</el-tab-pane>
   </el-tabs>
 </template>
 
@@ -30,13 +29,13 @@ const callingPidTypes = []
 const serviceTypes = []
 window.ServiceData.values.forEach(element => {
   tagTypes.push(eval(element[0]))
-  timeStampTypes.push(Math.round(eval(element[1]) / 10000000))
+  timeStampTypes.push(Math.round(eval(element[1]) / 1000))
   callingPidTypes.push(element[2])
   serviceTypes.push(element[3])
 
   tableData.value.push({
     tag: eval(element[0]),
-    timeStamp: Math.round(eval(element[1]) / 10000000),
+    timeStamp: Math.round(eval(element[1]) / 1000),
     callingPid: element[2],
     serviceName: element[3],
     methodName: element[4],
